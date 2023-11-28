@@ -1,9 +1,10 @@
-    .data
+.data
 prompt_str:     .asciiz "Enter num >= 25: "
 illegal_str:    .asciiz "Illegal number!\n"
+Break:          .asciiz "\n"
 
-    .text
-    .globl main
+.text
+.globl main
 
 main:
     # Print prompt
@@ -21,10 +22,35 @@ check_input:
     li $t0, 25
     blt $s0, $t0, input_invalid
 
-    # Print a message indicating valid input
-    li $v0, 4          # system call for print_str
-    la $a0, prompt_str # load address of prompt_str into $a0
+    # Initialize Fibonacci sequence elements
+    li $t0, 0
+    li $t1, 1
+
+    # Loop to generate and print the first two elements of the Fibonacci sequence
+    li $t2, 2
+fibonacci_loop:
+    # Print the current Fibonacci element
+    move $a0, $t0
+    li $v0, 1
     syscall
+
+    # Print a line break
+    li $v0, 4
+    la $a0, Break
+    syscall
+
+    # Calculate the next Fibonacci element
+    add $t3, $t0, $t1
+    move $t0, $t1
+    move $t1, $t3
+
+    # Increment loop counter
+    addi $t2, $t2, 1
+
+    # Check if we've printed the first two elements
+    bne $t2, 4, fibonacci_loop
+
+    # Exit program
     j exit_program
 
 input_invalid:

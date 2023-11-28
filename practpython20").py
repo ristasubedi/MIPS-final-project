@@ -3,3 +3,5 @@ while userprompt < 20:
     print("Illegeal number")
     userprompt = int(input("Enter num >= 20"))
 print("You entered a valid number:", user_prompt)
+print('0')
+print('1')
