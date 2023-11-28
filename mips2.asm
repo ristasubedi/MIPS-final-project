@@ -10,6 +10,7 @@ main:
     # Print prompt
     li $v0, 4          # system call for print_str
     la $a0, prompt_str # load address of prompt_str into $a0
+    
     syscall
 
     # Read integer from user
@@ -26,8 +27,8 @@ check_input:
     li $t0, 0
     li $t1, 1
 
-    # Loop to generate and print the first two elements of the Fibonacci sequence
-    li $t2, 2
+    # Loop to generate and print the Fibonacci sequence
+    addi $t2, $s0, 1
 fibonacci_loop:
     # Print the current Fibonacci element
     move $a0, $t0
@@ -44,11 +45,11 @@ fibonacci_loop:
     move $t0, $t1
     move $t1, $t3
 
-    # Increment loop counter
-    addi $t2, $t2, 1
+    # Decrement the counter
+    sub $t2, $t2, 1
 
-    # Check if we've printed the first two elements
-    bne $t2, 4, fibonacci_loop
+    # Check if we've printed the desired number of elements
+    bgtz $t2, fibonacci_loop
 
     # Exit program
     j exit_program
